@@ -1,0 +1,52 @@
+name: Process removal request
+
+# Runs when the repo owner adds the "approved" label to a "Remove me" issue.
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: write
+  issues: write
+  actions: write
+
+concurrency:
+  group: update-games
+  cancel-in-progress: false
+
+jobs:
+  remove:
+    if: github.event.label.name == 'approved' && github.actor == github.repository_owner
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Add to removal list
+        id: add
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: |
+          echo "summary=$(python process_removal.py)" >> "$GITHUB_OUTPUT"
+
+      - name: Save and refresh the site
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add removals.json
+          git diff --cached --quiet || { git commit -m "Removal request #${{ github.event.issue.number }}"; git push; }
+          gh workflow run update.yml --ref main
+
+      - name: Reply and close
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue close ${{ github.event.issue.number }} --comment "Done. ${{ steps.add.outputs.summary }} The site updates within about 15 minutes."
+
+      - name: Tell the owner if the form couldn't be read
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue comment ${{ github.event.issue.number }} --body "The robot couldn't process this automatically. @${{ github.repository_owner }}, please add the name to removals.json by hand."

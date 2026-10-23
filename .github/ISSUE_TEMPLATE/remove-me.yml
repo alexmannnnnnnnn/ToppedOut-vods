@@ -1,0 +1,39 @@
+name: Remove me
+description: Ask to have your matches or your stream removed from Topped Out on Stream.
+title: "Remove me: "
+labels: ["removal-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Fill this in and we'll take your name off the site, usually within a day.
+        This page is public, so don't include anything private.
+  - type: dropdown
+    id: who
+    attributes:
+      label: I am a
+      options:
+        - Player (remove matches I played against streamers)
+        - Streamer (remove my stream and my matches)
+    validations:
+      required: true
+  - type: input
+    id: username
+    attributes:
+      label: TETR.IO username
+      description: Exactly as it appears on the site.
+      placeholder: e.g. osk
+    validations:
+      required: true
+  - type: input
+    id: twitch
+    attributes:
+      label: Twitch channel (streamers only)
+      placeholder: e.g. my_twitch_name
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Confirmation
+      options:
+        - label: This is my own account (or I'm authorised to ask for it).
+          required: true

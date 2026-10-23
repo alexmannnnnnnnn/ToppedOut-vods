@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://alexmannnnnnnnn.github.io/Tetris-vods/sitemap.xml

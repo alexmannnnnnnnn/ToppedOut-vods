@@ -6,19 +6,19 @@
 <!--META-->
 <title>AwkCollar TETR.IO matches on stream | Topped Out on Stream</title>
 <meta name="description" content="105 TETRA LEAGUE matches AwkCollar played in the last 30 days, 0 of them on stream and linked to the moment in the VOD. Did you play AwkCollar? Search your username.">
-<link rel="canonical" href="https://alexmannnnnnnnn.github.io/Tetris-vods/awkcollar/">
+<link rel="canonical" href="https://tetris.chessedonstream.com/awkcollar/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Topped Out on Stream">
 <meta property="og:title" content="AwkCollar TETR.IO matches on stream | Topped Out on Stream">
 <meta property="og:description" content="105 TETRA LEAGUE matches AwkCollar played in the last 30 days, 0 of them on stream and linked to the moment in the VOD. Did you play AwkCollar? Search your username.">
-<meta property="og:url" content="https://alexmannnnnnnnn.github.io/Tetris-vods/awkcollar/">
-<meta property="og:image" content="https://alexmannnnnnnnn.github.io/Tetris-vods/og.png">
+<meta property="og:url" content="https://tetris.chessedonstream.com/awkcollar/">
+<meta property="og:image" content="https://tetris.chessedonstream.com/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AwkCollar TETR.IO matches on stream | Topped Out on Stream">
 <meta name="twitter:description" content="105 TETRA LEAGUE matches AwkCollar played in the last 30 days, 0 of them on stream and linked to the moment in the VOD. Did you play AwkCollar? Search your username.">
-<meta name="twitter:image" content="https://alexmannnnnnnnn.github.io/Tetris-vods/og.png">
+<meta name="twitter:image" content="https://tetris.chessedonstream.com/og.png">
 <meta name="theme-color" content="#6a35d6">
 <!--/META-->
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2224%22%20fill%3D%22%237b3fe4%22/%3E%3Cg%20fill%3D%22%23fff%22%3E%3Crect%20x%3D%2218%22%20y%3D%2230%22%20width%3D%2220%22%20height%3D%2220%22%20rx%3D%223%22/%3E%3Crect%20x%3D%2240%22%20y%3D%2230%22%20width%3D%2220%22%20height%3D%2220%22%20rx%3D%223%22/%3E%3Crect%20x%3D%2262%22%20y%3D%2230%22%20width%3D%2220%22%20height%3D%2220%22%20rx%3D%223%22/%3E%3Crect%20x%3D%2240%22%20y%3D%2252%22%20width%3D%2220%22%20height%3D%2220%22%20rx%3D%223%22/%3E%3C/g%3E%3C/svg%3E">
@@ -147,6 +147,15 @@
   @media (max-width: 640px) { .steps { grid-template-columns: 1fr; } h1 { font-size: 34px; }
     .stats { gap: 8px; } .stat { padding: 12px 6px; } .stat b { font-size: 19px; } .stat span { font-size: 11.5px; } }
   .info .chips { margin: 26px auto 0; }
+  .sister { display: flex; align-items: center; gap: 14px; max-width: 560px; margin: 22px auto 0; padding: 14px 16px;
+    border-radius: 14px; background: var(--panel); border: 1px solid var(--line); text-decoration: none; color: var(--ink); }
+  .sister:hover { border-color: #3d6b40; }
+  .sister .ic { width: 42px; height: 42px; border-radius: 11px; background: #3d6b40; display: grid; place-items: center; flex: none; }
+  .sister .ic svg { width: 26px; height: 26px; }
+  .sister b { display: block; font-size: 15px; }
+  .sister span { color: var(--muted); font-size: 13.5px; }
+  .sister .go { margin-left: auto; color: #3d6b40; font-weight: 700; font-size: 18px; }
+
 </style>
 </head>
 <body>
@@ -183,6 +192,7 @@
       <div class="step"><i>3</i><h3>Watch the moment</h3><p>Their stream starts when your match began. No VOD? Watch the replay instead.</p></div>
     </div>
     <div class="chips" id="homeChips"></div>
+    <a class="sister" href="https://chessedonstream.com/" rel="noopener"><span class="ic" aria-hidden="true"><svg viewBox="8 6 84 90" fill="#fff"><path d="M34 74 C33 64 35 57 40 51 L29 53 C23 54 18 51 15.5 47 C13 43 13.5 38 17 35 L31 23 L34 11 L42 19.5 C57 20 69 31 71 48 C72.5 59 71 67 68 74 Z"/><rect x="28" y="76" width="44" height="5" rx="2"/><path d="M22 92 V88 C22 85 24 83 27 83 H73 C76 83 78 85 78 88 V92 Z"/></svg></span><span><b>Play chess too?</b><span>Find the games you played against chess streamers on Chessed on Stream.</span></span><span class="go" aria-hidden="true">→</span></a>
   </section>
   <div class="chips" id="chips"></div>
 
@@ -436,7 +446,8 @@
       $("foot").innerHTML = "Data from the TETRA CHANNEL API and Twitch · Updated " +
         esc(new Date(d.generated * 1000).toLocaleString()) + " · Unofficial fan site, not affiliated with TETR.IO or Twitch · " +
         '<a href="https://github.com/alexmannnnnnnnn/tetris-vods/issues/new?template=remove-me.yml" ' +
-        'target="_blank" rel="noopener">Remove me</a>';
+        'target="_blank" rel="noopener">Remove me</a>' +
+        ' · Sister site: <a href="https://chessedonstream.com/">Chessed on Stream</a>';
       var q = new URLSearchParams(location.search).get("q") || "";
       if (!q && PRESET && byLogin[PRESET]) q = byLogin[PRESET].name;
       $("q").value = q;

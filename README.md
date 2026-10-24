@@ -1,5 +1,7 @@
 # Topped Out on Stream
 
+**Live site: [toppedout.chessedonstream.com](https://toppedout.chessedonstream.com/)**
+
 Find the TETRA LEAGUE matches you played against TETR.IO players who stream on Twitch, then watch the match from their stream, or the replay.
 
 Built the same way as [Chessed on Stream](https://chessedonstream.com). Unofficial fan site, not affiliated with TETR.IO or Twitch.
@@ -20,7 +22,7 @@ TETR.IO asks API users to make about one request a second and to respect its cac
 ## Setup
 
 1. **Twitch keys (optional, turns on VOD links):** repo Settings → Secrets and variables → Actions → New repository secret: `TWITCH_CLIENT_ID` and `TWITCH_CLIENT_SECRET` (the same Twitch app as Chessed on Stream; if you make a new secret, update both repos). Without them the site shows replays only.
-2. **Website:** Settings → Pages → Deploy from a branch → `main` → `/ (root)`.
+2. **Website:** Settings → Pages → Deploy from a branch → `main` → `/ (root)`. Custom domain `toppedout.chessedonstream.com` (a `CNAME` record named `toppedout` → `alexmannnnnnnnn.github.io` in Cloudflare, DNS only).
 3. **First update:** Actions → "Update matches" → Run workflow.
 
 ## Adding streamers by hand

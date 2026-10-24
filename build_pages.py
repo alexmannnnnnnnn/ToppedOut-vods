@@ -33,7 +33,7 @@ def site_url():
         except OSError:
             pass
     if not url:
-        repo = os.environ.get("GITHUB_REPOSITORY", "alexmannnnnnnnn/tetris-vods")
+        repo = os.environ.get("GITHUB_REPOSITORY", "alexmannnnnnnnn/ToppedOut-vods")
         owner, name = repo.split("/")
         url = f"https://{owner.lower()}.github.io/{name}"
     return url.rstrip("/") + "/"

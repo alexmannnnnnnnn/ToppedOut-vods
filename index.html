@@ -69,6 +69,7 @@
   .chip:hover { border-color: var(--accent); }
   .chip img, .chip .ph { width: 24px; height: 24px; border-radius: 50%; background: var(--chip); object-fit: cover; }
   .chip small { color: var(--muted); }
+  .chip .lv { color: var(--twitch); font-weight: 700; }
 
   main { display: none; grid-template-columns: minmax(0, 1fr) 460px; gap: 20px; align-items: start; padding-bottom: 48px; }
   body.has-results main { display: grid; }
@@ -239,6 +240,10 @@
       { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
   }
   function streamer(id) { return byLogin[id] || { name: id, avatar: "", tetrio: id, twitch: "" }; }
+  // matches with a stream video first (newest first), then replay-only ones
+  function vodFirst(list) {
+    return list.slice().sort(function (a, b) { return ((b.vod ? 1 : 0) - (a.vod ? 1 : 0)) || (b.start - a.start); });
+  }
   function replayUrl(g) { return "https://tetr.io/#R:" + encodeURIComponent(g.replay); }
   function score(g) { return mode === "player" ? g.score.split("-").reverse().join("-") : g.score; }
   function avatar(s, cls) {
@@ -281,7 +286,7 @@
     $(target || "chips").innerHTML = list.length
       ? '<div class="lbl">' + esc(label) + '</div>' + list.map(function (s) {
           return '<a class="chip" href="' + esc(BASE + s.tetrio + "/") + '">' + avatar(s, "") + esc(s.name) +
-            ' <small>' + s.count.toLocaleString() + '</small></a>';
+            ' <small>' + (s.live ? '<span class="lv">▶ ' + s.live.toLocaleString() + '</span> ' : '') + s.count.toLocaleString() + '</small></a>';
         }).join("")
       : "";
   }
@@ -297,8 +302,8 @@
     document.body.classList.toggle("searching", !!q);
     if (!q) {
       $("status").textContent = "";
-      chips(DATA.streamers.slice().sort(function (a, b) { return b.count - a.count; }).slice(0, 18),
-        "Or browse the most active streamers", "homeChips");
+      chips(DATA.streamers.slice().sort(function (a, b) { return (b.live - a.live) || (b.count - a.count); }).slice(0, 18),
+        DATA.vods ? "Browse streamers (▶ = matches with stream video)" : "Or browse the most active streamers", "homeChips");
       return;
     }
 
@@ -315,7 +320,7 @@
 
     var raw0 = raw.trim();
     function showPlayer() {
-      rows = asPlayer; mode = "player";
+      rows = vodFirst(asPlayer); mode = "player";
       var n = {}; asPlayer.forEach(function (g) { n[g.streamer] = 1; });
       var k = Object.keys(n).length, w = rows.filter(function (g) { return g.result === "loss"; }).length;
       $("status").innerHTML = "<b>" + esc(raw0) + "</b> played " + rows.length + " ranked match" +
@@ -329,7 +334,7 @@
     }
     function showStreamer() {
       mode = "streamer";
-      rows = DATA.games.filter(function (g) { return g.streamer === exact.tetrio; });
+      rows = vodFirst(DATA.games.filter(function (g) { return g.streamer === exact.tetrio; }));
       var live = rows.filter(function (g) { return g.vod; }).length;
       $("status").innerHTML = "<b>" + esc(exact.name) + "</b> · " + rows.length.toLocaleString() +
         " ranked matches in the last " + DATA.days + " days" + (DATA.vods ? ", " + live.toLocaleString() + " on stream" : "") +
@@ -437,7 +442,9 @@
       DATA = d;
       var counts = {};
       d.games.forEach(function (g) { counts[g.streamer] = (counts[g.streamer] || 0) + 1; });
-      d.streamers.forEach(function (s) { s.count = counts[s.tetrio] || 0; byLogin[s.tetrio] = s; });
+      var lives = {};
+      d.games.forEach(function (g) { if (g.vod) lives[g.streamer] = (lives[g.streamer] || 0) + 1; });
+      d.streamers.forEach(function (s) { s.count = counts[s.tetrio] || 0; s.live = lives[s.tetrio] || 0; byLogin[s.tetrio] = s; });
       $("sGames").textContent = d.games.length.toLocaleString();
       if (d.vods) $("sStreamers").textContent = d.games.filter(function (g) { return g.vod; }).length.toLocaleString();
       else { $("sStreamers").textContent = d.streamers.length.toLocaleString(); $("sStreamers").nextElementSibling.textContent = "streamers"; }
